@@ -1,0 +1,57 @@
+%table#group.row-border.hover
+  %thead
+    %tr
+      %th Nazwa grupy
+      %th Dodaj przedmiot
+      %th Statystyka
+  %tbody
+    -@groups.each do |g|
+      %tr
+        %td
+          =g.name
+        %td
+          %a{href: '#'}
+            %span{"data-target" => "#myModal#{g.id}", "data-toggle" => "modal"}
+              Dodaj
+          .modal.fade{:id => "myModal#{g.id}", "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  %button.close{"data-dismiss" => "modal", :type => "button"}
+                    %span{"aria-hidden" => "true"} ×
+                    %span.sr-only Close
+                  %h4#myModalLabel.modal-title 
+                    Dodaj Przedmiot dla 
+                    =g.name
+                .modal-body
+                  %table#modal-table.row-border.hover
+                    %thead
+                      %tr
+                        %th Numer
+                        %th Nazwa
+                        %th Dostępnych
+                        %th 
+                      %tbody
+                        -@tools.each do |t|
+                          %tr
+                            %td
+                              =t.code
+                            %td
+                              =t.name
+                            %td
+                              =t.count
+                            %td
+                              =form_tag taken_tools_path, multipart: true do 
+                                =number_field_tag :count, '', in: 1..99, step: '1'
+                                =hidden_field_tag :tool_id, t.id
+                                =hidden_field_tag :group_id, g.id
+                                =submit_tag "+"
+                .modal-footer
+                  %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %td
+          stat
+
+:javascript
+  data_table_init_order = [0,'desc'];
+
+

@@ -1,0 +1,35 @@
+.main-container{
+  margin: 60px 10px;
+}
+
+.notice{
+  background: yellow;
+  text-align: center;
+  font-weight: 700;
+}
+
+#show_add{
+  text-align: center;
+}
+.add{
+  display: none;
+}
+
+.plus{
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.taken_tool{
+  background: #D12A2A;
+  font-weight: 700;
+}
+
+.added_tool{
+  background: #5EC445;
+  font-weight: 700;
+}
+
+.deleted{
+  text-decoration: line-through;
+}

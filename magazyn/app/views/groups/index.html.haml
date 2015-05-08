@@ -1,0 +1,51 @@
+#show_add
+  %a{href: '#'}
+    Dodaj Grupę
+.add
+  =form_tag groups_path, multipart: true do 
+    =fields_for @group do |p|
+      .row
+        .col-lg-4
+
+        .col-lg-4
+          .form-group
+            =p.label 'Nazwa'
+            =p.text_field :name, class: 'form-control'
+          .form-group
+          =submit_tag "Dodaj", class: "btn btn-primary"
+%table#group.row-border.hover
+  %thead
+    %tr
+      %th Nazwa
+      %th Ludzie
+      %th Data powstania
+      %th 
+  %tbody
+    -@groups.each do |g|
+      %tr
+        %td
+          =g.name
+        %td
+          -if g.users.count > 0
+            -g.users.each do |u|
+              %div
+                =u.name
+                =u.surname
+          -elsif g.users.count == 1
+            %div
+              =g.users.first.name
+              =g.users.first.surname
+          -else
+            Brak
+        %td
+          =g.created_at.to_date
+        %td
+          =link_to 'Edytuj', edit_group_path(g.id)
+          =link_to 'Usuń', group_path(g.id), method: :delete, data: { confirm: "Napewno chcesz usunąć?" }
+
+:javascript
+  $(function(){
+    add();
+  })
+:javascript
+  data_table_init_order = [0,'asc'];

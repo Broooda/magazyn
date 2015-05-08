@@ -1,0 +1,61 @@
+#show_add
+  %a{href: '#'}
+    Dodaj Przedmiot
+.add
+  =form_tag tools_path, multipart: true do 
+    =fields_for @tool do |p|
+      .row
+        .col-lg-2
+
+        .col-lg-4
+          .form-group
+            =p.label 'Kod'
+            =p.text_field :code, class: 'form-control'
+          .form-group
+            =p.label 'Nazwa'
+            =p.text_field :name, class: 'form-control'
+        .col-lg-4
+          .form-group
+            =p.label 'Ilosc'
+            =p.number_field :count, in: 0..99, step: '1', class: 'form-control'
+          .form-group
+            =p.label 'Cena'
+            =p.number_field :price, :step => 0.01, class: 'form-control'
+          .form-group
+            =submit_tag "Dodaj", class: "btn btn-primary"
+%table#group.row-border.hover
+  %thead
+    %tr
+      %th Kod
+      %th Nazwa
+      %th Cena
+      %th Ilosc
+      %th 
+      %th
+  %tbody
+    -@tools.each do |t|
+      %tr
+        %td
+          =t.code
+        %td
+          =t.name
+        %td
+          =t.price
+        %td
+          =t.count
+        %td
+          =form_tag change_tools_admin_path, multipart: true do
+            =submit_tag "-", name: "desc"
+            =number_field_tag :count, '', in: 1..99, step: '1'
+            =hidden_field_tag :tool_id, t.id
+            =submit_tag "+", name: "desc"
+        %td
+          =link_to 'Edytuj', edit_tool_path(t.id)
+          =link_to 'Usuń', tool_path(t.id), method: :delete, data: { confirm: "Napewno chcesz usunąć?" }
+
+:javascript
+  $(function(){
+    add();
+  })
+:javascript
+  data_table_init_order = [0,'asc'];

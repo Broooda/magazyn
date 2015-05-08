@@ -1,0 +1,6 @@
+=form_for @group do |p|
+  .form-group
+    =p.label 'Nazwa'
+    =p.text_field :name, class: 'form-control'
+  .form-group
+    =submit_tag "Edytuj", class: "btn btn-primary"

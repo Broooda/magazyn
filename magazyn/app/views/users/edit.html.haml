@@ -1,0 +1,12 @@
+=form_for @user do |p|
+  .form-group
+    =p.label 'Imie'
+    =p.text_field :name, class: 'form-control'
+  .form-group
+    =p.label 'Nazwisko'
+    =p.text_field :surname, class: 'form-control'
+  .form-group
+    =p.label 'Grupa'
+    =p.select :group_id, options_from_collection_for_select(@groups, "id", "name", @user.group_id), {:include_blank => 'Brak'}, class: 'form-control'
+  .form-group
+    =submit_tag "Edytuj", class: "btn btn-primary"

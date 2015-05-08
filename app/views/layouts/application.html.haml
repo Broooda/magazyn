@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title Magazyn
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    -unless controller.class.name.include? 'Devise'
+      %nav.navbar.navbar-inverse.navbar-fixed-top
+        %ul.nav.navbar-nav
+          %li
+            =link_to 'Strona Glowna', root_url
+          %li
+            =link_to 'Grupy', groups_path
+          %li
+            =link_to 'Użytkownicy', users_path
+          %li
+            =link_to 'Przedmioty', tools_path
+          %li
+            =link_to 'Historia', history_path
+    .main-container
+      -if flash[:notice]
+        .notice
+          =flash[:notice]
+      = yield
+
+

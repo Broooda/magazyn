@@ -1,0 +1,120 @@
+-if @history.count > 0
+  %table#group.row-border.hover
+    %thead
+      %tr
+        %th Kto
+        %th Numer
+        %th Nazwa
+        %th Zmiana stanu
+        %th Data
+    %tbody
+      -@history.each do |h|
+        %tr
+          -if h.class == AddedTool
+            -unless h.tool.active
+              %td.added_tool{style: "color: yellow;"}
+                .deleted
+                  Administrator
+              %td.added_tool
+                .deleted
+                  =h.tool_id
+              %td.added_tool
+                .deleted
+                  =h.tool.name
+              %td.added_tool
+                .deleted
+                  =h.count
+                  (
+                  =h.tool.price * h.count
+                  zł)
+              %td.added_tool
+                .deleted
+                  =h.created_at.to_formatted_s(:db)
+            -else
+              %td.added_tool{style: "color: yellow;"}
+                Administrator
+              %td.added_tool
+                =h.tool_id
+              %td.added_tool
+                =h.tool.name
+              %td.added_tool
+                =h.count
+                (
+                =h.tool.price * h.count
+                zł)
+              %td.added_tool
+                =h.created_at.to_formatted_s(:db)
+          -else
+            -if h.group_id
+              -unless h.tool.active
+                %td.taken_tool
+                  .deleted
+                    =h.group.name
+                %td.taken_tool
+                  .deleted
+                    =h.tool_id
+                %td.taken_tool
+                  .deleted
+                    =h.tool.name
+                %td.taken_tool
+                  .deleted
+                    =h.count
+                    (
+                    =h.tool.price * h.count
+                    zł)
+                %td.taken_tool
+                  .deleted
+                    =h.created_at.to_formatted_s(:db)
+              -else
+                %td.taken_tool
+                  =h.group.name
+                %td.taken_tool
+                  =h.tool_id
+                %td.taken_tool
+                  =h.tool.name
+                %td.taken_tool
+                  =h.count
+                  (
+                  =h.tool.price * h.count
+                  zł)
+                %td.taken_tool
+                  =h.created_at.to_formatted_s(:db)
+            -else
+              -unless h.tool.active
+                %td.taken_tool{style: "color: yellow;"}
+                  .deleted
+                    Administrator
+                %td.taken_tool
+                  .deleted
+                    =h.tool_id
+                %td.taken_tool
+                  .deleted
+                    =h.tool.name
+                %td.taken_tool
+                  .deleted
+                    =h.count
+                    (
+                    =h.tool.price * h.count
+                    zł)
+                %td.taken_tool
+                  .deleted
+                    =h.created_at.to_formatted_s(:db)
+              -else
+                %td.taken_tool{style: "color: yellow;"}
+                  Administrator
+                %td.taken_tool
+                  =h.tool_id
+                %td.taken_tool
+                  =h.tool.name
+                %td.taken_tool
+                  =h.count
+                  (
+                  =h.tool.price * h.count
+                  zł)
+                %td.taken_tool
+                  =h.created_at.to_formatted_s(:db)
+-else
+  Brak
+:javascript
+  data_table_init_order = [4,'desc'];
+

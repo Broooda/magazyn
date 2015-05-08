@@ -1,0 +1,85 @@
+-if params[:notice]
+  .notice
+    =params[:notice]
+
+#show_add
+  %a{href: '#'}
+    Dodaj Użytkownika
+.add
+  =form_tag users_path, multipart: true do 
+    =fields_for @user do |p|
+      .row
+        .col-lg-4
+
+        .col-lg-4
+          .form-group
+            =p.label 'Imie'
+            =p.text_field :name, class: 'form-control'
+          .form-group
+            =p.label 'Nazwisko'
+            =p.text_field :surname, class: 'form-control'
+          .form-group
+            =p.label 'Grupa'
+            =p.select :group_id, options_from_collection_for_select(@groups, "id", "name"),  {:include_blank => 'Brak'}, class: 'form-control'
+          .form-group
+            =submit_tag "Dodaj", class: "btn btn-primary"
+%table#group.row-border.hover
+  %thead
+    %tr
+      %th Kto
+      %th Gdzie
+      %th Data powstania
+      %th 
+  %tbody
+    -@users.each do |u|
+      %tr
+        %td
+          =u.name
+          =u.surname
+        %td
+          -if u.group
+            %div
+              =u.group.name
+          -else
+            Brak
+            %a{href: '#'}
+              %span.plus{"data-target" => "#myModal#{u.id}", "data-toggle" => "modal"}
+                +
+            .modal.fade{:id => "myModal#{u.id}", "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button.close{"data-dismiss" => "modal", :type => "button"}
+                      %span{"aria-hidden" => "true"} ×
+                      %span.sr-only Close
+                    %h4#myModalLabel.modal-title 
+                      Dodaj grupę
+                      =u.name
+                      =u.surname
+                  .modal-body
+                    %table#modal-table.row-border.hover
+                      %thead
+                        %tr
+                          %th Nazwa
+                          %th dodaj
+                        %tbody
+                          -@groups.each do |g|
+                            %tr
+                              %td
+                                =g.name
+                              %td
+                                =link_to 'dodaj do', add_user_group_path(user: u.id, group: g.id), method: :post
+                  .modal-footer
+                    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %td
+          =u.created_at.to_date
+        %td
+          =link_to 'Edytuj', edit_user_path(u.id)
+          =link_to 'Usuń', user_path(u.id), method: :delete, data: { confirm: "Napewno chcesz usunąć?" }
+:javascript
+  $(function(){
+    add();
+  })
+
+:javascript
+  data_table_init_order = [0,'asc'];
